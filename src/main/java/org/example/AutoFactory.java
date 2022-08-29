@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.Events.CustomPublisher;
 import org.example.cars.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,12 +13,16 @@ public class AutoFactory {
     private ProductionLine productionLine;
     private DeliverChecker deliverChecker;
 
+    private CustomPublisher eventPublisher;
+
     @Autowired
-    public AutoFactory(@Qualifier("sedanPL") ProductionLine productionLine, DeliverChecker deliverChecker) {
+    public AutoFactory(@Qualifier("sedanPL") ProductionLine productionLine, DeliverChecker deliverChecker,
+                       CustomPublisher eventPublisher) {
 
         carsBuilt = 0;
         this.productionLine = productionLine;
         this.deliverChecker = deliverChecker;
+        this.eventPublisher = eventPublisher;
     }
 
     public void runProduction(){
@@ -25,6 +30,7 @@ public class AutoFactory {
         while (carsBuilt < productionSize) {
             Car newCar = productionLine.Work();
             if (deliverChecker.CheckDeliver(newCar)) {
+                eventPublisher.publishCustomEvent("Car was built");
                 carsBuilt++;
             }
         }

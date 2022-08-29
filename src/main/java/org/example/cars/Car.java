@@ -8,9 +8,9 @@ public class Car {
         this.partsDelivered = parts;
 
         if (this.partsDelivered) {
-            System.out.println("i`m sedan. I was born!");
+            //System.out.println("I was born!");
         } else {
-            System.out.println("i`m sedan. No parts delivered!");
+            System.out.println("No parts delivered!");
         }
     }
 
